@@ -7,6 +7,7 @@
         public const int DescriptionMaxLenght = 200;
         public static string InvalidTextLehghCardValues = "The card {0} must be between {1} and {2} characters!";
         public static string InvalidPowerPointsCardValues = "The card {0} must be greater than ( 0 ) points!";
+        public static string CardnameUsed = "This name has already been added!";
 
         public const int UserNameMinLenght = 5;
         public const int UserNameMaxLenght = 20;

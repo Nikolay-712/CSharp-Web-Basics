@@ -44,14 +44,22 @@
 
             if (!CheckCardPowerPoints(inputCardView.Attack))
             {
+                this.IsValid = false;
                 this.Message = string.Format(ValidationConstants.InvalidPowerPointsCardValues,
                     nameof(inputCardView.Attack));
             }
 
             if (!CheckCardPowerPoints(inputCardView.Health))
             {
+                this.IsValid = false;
                 this.Message = string.Format(ValidationConstants.InvalidPowerPointsCardValues,
                     nameof(inputCardView.Health));
+            }
+
+            if (this.applicationDbContext.Cards.ToList().Select(x => x.Name).Contains(inputCardView.Name))
+            {
+                this.IsValid = false;
+                this.Message = ValidationConstants.CardnameUsed;
             }
 
             return this.Message;
@@ -65,7 +73,7 @@
             if (!CheckUserValuesLenght(usernameLenght, ValidationConstants.UserNameMinLenght, ValidationConstants.UserNameMaxLenght))
             {
                 this.IsValid = false;
-                this.Message = 
+                this.Message =
                     string.Format(ValidationConstants.InvalidTextLehghUserValues,
                     nameof(inputUserView.Username), ValidationConstants.UserNameMinLenght, ValidationConstants.UserNameMaxLenght);
             }
@@ -74,8 +82,8 @@
             if (!CheckUserValuesLenght(passwordLenght, ValidationConstants.PasswordMinLenght, ValidationConstants.PasswordMaxLenght))
             {
                 this.IsValid = false;
-                this.Message = 
-                    string.Format(ValidationConstants.InvalidTextLehghUserValues, 
+                this.Message =
+                    string.Format(ValidationConstants.InvalidTextLehghUserValues,
                     nameof(inputUserView.Password), ValidationConstants.PasswordMinLenght, ValidationConstants.PasswordMaxLenght);
             }
 

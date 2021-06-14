@@ -5,6 +5,7 @@
     using BattleCards.ViewModels.Crads;
     using SIS.HTTP;
     using SIS.MvcFramework;
+    using BattleCards.Common;
 
     public class CardsController : Controller
     {
@@ -19,7 +20,9 @@
 
         public HttpResponse All()
         {
+            var cards = this.cardService.All();
             return this.View();
+
         }
 
         public HttpResponse Collection()
@@ -29,12 +32,22 @@
 
         public HttpResponse Add()
         {
+            if (!UserAuthentication.IsLogged(this.User))
+            {
+                return Redirect("/Users/Login");
+            }
+
             return this.View();
         }
 
         [HttpPost]
         public HttpResponse Add(InputCardViewModel inputCardView)
         {
+            if (!UserAuthentication.IsLogged(this.User))
+            {
+                return Redirect("/Users/Login");
+            }
+
             this.validationService.ValidateCardData(inputCardView);
 
             if (!this.validationService.IsValid)
@@ -44,7 +57,7 @@
 
             this.cardService.AddCard(inputCardView);
 
-            return this.View();
+            return this.Redirect("/Cards/All");
         }
     }
 }

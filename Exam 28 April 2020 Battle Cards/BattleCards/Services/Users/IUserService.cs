@@ -6,6 +6,6 @@
     {
         void Register(InputUserViewModel inputUserView);
 
-        void Login(InputLoginViewModel inputLoginView);
+        string Login(InputLoginViewModel inputLoginView);
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace BattleCards.Controllers
 {
+    using BattleCards.Common;
     using BattleCards.Services.Users;
     using BattleCards.Services.Validation;
     using BattleCards.ViewModels.Users;
@@ -11,10 +12,22 @@
         private readonly IUserService userService;
         private readonly IValidationService validationService;
 
+        public bool UserAutetacation { get; private set; }
+
         public UsersController(IUserService userService, IValidationService validationService)
         {
             this.userService = userService;
             this.validationService = validationService;
+        }
+
+        [HttpGet("/Logout")]
+        public HttpResponse Logout()
+        {
+            if (UserAuthentication.IsLogged(this.User))
+            {
+                this.SignOut();
+            }
+            return this.Redirect("/");
         }
 
         public HttpResponse Login()
@@ -32,8 +45,8 @@
                 return this.Error(this.validationService.Message);
             }
 
-            this.userService.Login(inputLoginView);
-
+            this.SignIn(this.userService.Login(inputLoginView));
+            
             return this.Redirect("/Cards/All");
         }
 
@@ -56,5 +69,8 @@
 
             return this.Redirect("/Users/Login");
         }
+
+
+        
     }
 }

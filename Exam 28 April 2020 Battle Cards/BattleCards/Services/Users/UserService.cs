@@ -4,7 +4,7 @@
     using BattleCards.Data;
     using BattleCards.Models;
     using BattleCards.ViewModels.Users;
-    
+    using System.Linq;
 
     public class UserService : IUserService
     {
@@ -20,16 +20,18 @@
             var passwold = PasswordEncoder.EncodePassword(inputUserView.Password);
             var user = new User(inputUserView.Username, inputUserView.Email, passwold);
 
-             this.applicationDbContext.Users.Add(user);
-             this.applicationDbContext.SaveChanges();
+            this.applicationDbContext.Users.Add(user);
+            this.applicationDbContext.SaveChanges();
 
         }
 
-        public void Login(InputLoginViewModel inputLoginView)
+        public string Login(InputLoginViewModel inputLoginView)
         {
+            var user = this.applicationDbContext.Users.ToList()
+                .FirstOrDefault(x => x.Password == PasswordEncoder.EncodePassword(inputLoginView.Password) &&
+                x.Username == inputLoginView.Username);
 
+            return user.Id;
         }
-
-       
     }
 }

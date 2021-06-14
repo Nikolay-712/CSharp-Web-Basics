@@ -1,10 +1,12 @@
 ﻿namespace BattleCards.Services.Cards
 {
     using BattleCards.ViewModels.Crads;
+    using System.Collections.Generic;
 
     public interface ICardService
     {
-        public void AddCard(InputCardViewModel inputCardView);
-        
+        void AddCard(InputCardViewModel inputCardView);
+
+        IEnumerable<CardViewModel> All();
     }
 }
